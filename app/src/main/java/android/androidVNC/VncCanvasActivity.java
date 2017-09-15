@@ -24,7 +24,6 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -33,9 +32,9 @@ import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.qimon.commonlibrary.gesture.OnGesture;
 import com.qimon.commonlibrary.gesture.ZGesture;
-import com.zeffect.apk.vnc.gesture.OnGesture;
-import com.zeffect.apk.vnc.gesture.WeakAsyncTask;
+import com.zeffect.apk.vnc.utils.WeakAsyncTask;
 
 import java.util.List;
 
@@ -169,6 +168,10 @@ public class VncCanvasActivity extends Activity {
 
         @Override
         public void onMove(MotionEvent event) {
+            if (event.getPointerCount() > 1) {
+                vncCanvas.sendUpMetaKey();
+                return;
+            }
             //没有超过感知距离的就算了
             float tempW = Math.abs(mPoints.getX1() - event.getX());
             float tempH = Math.abs(mPoints.getY1() - event.getY());
@@ -188,11 +191,35 @@ public class VncCanvasActivity extends Activity {
         }
 
         @Override
+        public void on2LeftUp(Float pFloat) {
+            sendKey(MetaKeyBean.ctrlAltTab);
+            sendKey(MetaKeyBean.keyArrowLeft);
+//            sendKey(MetaKeyBean.keyEnter);
+        }
+
+        @Override
+        public void on2RightUp(Float pFloat) {
+            sendKey(MetaKeyBean.ctrlAltTab);
+            sendKey(MetaKeyBean.keyArrowRight);
+//            sendKey(MetaKeyBean.keyEnter);
+        }
+
+        @Override
+        public void on2ZoomBigUp(Double pDouble) {
+            sendKey(MetaKeyBean.keySwitch);
+        }
+
+        @Override
+        public void on2ZoomSmallUp(Double pDouble) {
+            sendKey(MetaKeyBean.altSpace);
+            sendKey(MetaKeyBean.keyN);
+        }
+
+        @Override
         public void onUp() {
             vncCanvas.sendUpMetaKey();
         }
     }
-
 
     public void sendKey(MetaKeyBean temp) {
         new WeakAsyncTask<MetaKeyBean, Void, Void, Context>(mContext) {

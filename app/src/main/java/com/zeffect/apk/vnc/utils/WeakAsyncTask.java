@@ -1,4 +1,4 @@
-package com.zeffect.apk.vnc.gesture;
+package com.zeffect.apk.vnc.utils;
 
 import android.os.AsyncTask;
 

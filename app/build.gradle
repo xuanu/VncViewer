@@ -27,7 +27,7 @@ dependencies {
     compile project(':zoomerWithKeys')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile "org.jetbrains.anko:anko-sdk15:+"
-    compile 'com.afollestad.material-dialogs:core:0.9.4.7'
+    compile 'com.github.xuanu.Notes:commonlibrary:1.1'
 }
 repositories {
     mavenCentral()

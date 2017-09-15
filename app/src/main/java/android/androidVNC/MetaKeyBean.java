@@ -29,6 +29,11 @@ class MetaKeyBean extends AbstractMetaKeyBean implements Comparable<MetaKeyBean>
     static final MetaKeyBean keyMouseRightClick;
     static final MetaKeyBean mouseScrollUp;
     static final MetaKeyBean mouseScrollDown;
+    public static final MetaKeyBean altSpace;
+    public static final MetaKeyBean ctrlAltTab;
+    public static final MetaKeyBean keySwitch;
+    public static final MetaKeyBean keyN;
+    public static final MetaKeyBean keyEnter;
     //********************
     static final NewInstance<MetaKeyBean> NEW;
 
@@ -118,10 +123,15 @@ class MetaKeyBean extends AbstractMetaKeyBean implements Comparable<MetaKeyBean>
         keyArrowUp = new MetaKeyBean(0, 0, keysByKeySym.get(0xFF52));
         keyArrowRight = new MetaKeyBean(0, 0, keysByKeySym.get(0xFF53));
         keyArrowDown = new MetaKeyBean(0, 0, keysByKeySym.get(0xFF54));
+        keySwitch = new MetaKeyBean(0, VncCanvas.ALT_MASK, keysByKeySym.get(0xFF09));
         keyMouseLeftClick = new MetaKeyBean(0, 0, keysByMouseButton.get(VncCanvas.MOUSE_BUTTON_LEFT));
         keyMouseRightClick = new MetaKeyBean(0, 0, keysByMouseButton.get(VncCanvas.MOUSE_BUTTON_RIGHT));
         mouseScrollDown = new MetaKeyBean(0, 0, keysByMouseButton.get(VncCanvas.MOUSE_BUTTON_SCROLL_DOWN));
         mouseScrollUp = new MetaKeyBean(0, 0, keysByMouseButton.get(VncCanvas.MOUSE_BUTTON_SCROLL_UP));
+        altSpace = new MetaKeyBean(0, VncCanvas.ALT_MASK, keysByKeySym.get(0x020));
+        ctrlAltTab = new MetaKeyBean(0, VncCanvas.CTRL_MASK | VncCanvas.ALT_MASK, keysByKeySym.get(0xFF09));
+        keyN = new MetaKeyBean(0, 0, keysByKeyCode.get(KeyEvent.KEYCODE_N));
+        keyEnter = new MetaKeyBean(0, 0, keysByKeySym.get(0xFF0D));
     }
 
     private boolean _regenDesc;
@@ -229,6 +239,7 @@ class MetaKeyBean extends AbstractMetaKeyBean implements Comparable<MetaKeyBean>
     }
 
     void setKeyBase(MetaKeyBase base) {
+        if (base == null) return;
         if (base.isMouse) {
             setMouseButtons(base.mouseButtons);
         } else {
