@@ -5,6 +5,8 @@ package android.androidVNC;
 
 import android.widget.ImageView.ScaleType;
 
+import cn.zeffect.apk.vnc.R;
+
 /**
  * @author Michael A. MacDonald
  */

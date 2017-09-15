@@ -10,23 +10,36 @@ public abstract class OnGesture {
     /**
      * 上滑
      **/
-    public void onTop() {
+    public void onTopUp() {
+    }
+
+    public void onTopUp(MotionEvent pEvent) {
     }
 
     /**
      * 下滑
      */
-    public void onBottom() {
+    public void onBottomUp() {
+    }
+
+    public void onBottomUp(MotionEvent pEvent) {
+
     }
 
     /***左滑**/
-    public void onLeft() {
+    public void onLeftUp() {
+    }
+
+    public void onLeftUp(MotionEvent pEvent) {
     }
 
     /**
      * 右滑
      **/
-    public void onRight() {
+    public void onRightUp() {
+    }
+
+    public void onRightUp(MotionEvent pEvent) {
     }
 
     /**
@@ -35,10 +48,17 @@ public abstract class OnGesture {
     public void onDown() {
     }
 
+    public void onDown(MotionEvent pEvent) {
+    }
+
+
     /**
      * 抬起
      **/
     public void onUp() {
+    }
+
+    public void onUp(MotionEvent pEvent) {
     }
 
     /**
@@ -53,26 +73,32 @@ public abstract class OnGesture {
     public void onSingleUp() {
     }
 
+    public void onSingleUp(MotionEvent pEvent) {
+    }
+
     /**
      * 双击
      **/
     public void onDoubleUp() {
     }
 
-    /**
-     * 按下
-     */
-    public void onPressed() {
+    public void onDoubleUp(MotionEvent pEvent) {
     }
 
     /**
      * 长按
      */
-    public void onLong() {
+    public void onLongClick() {
     }
+
+    public void onLongClick(MotionEvent pEvent) {
+    }
+
+    //**********************双指手势区
 
     /***
      * 双指放大
+     * @param pDouble 两次间隔
      */
     public void zoomBig(Double pDouble) {
 
@@ -80,9 +106,22 @@ public abstract class OnGesture {
 
     /***
      * 缩小
+     * @param pDouble 两次间隔
      * **/
     public void zoomSmall(Double pDouble) {
 
+    }
+
+    public void on2TopMove(Float pFloat) {
+    }
+
+    public void on2BottomMove(Float pFloat) {
+    }
+
+    public void on2LeftMove(Float pFloat) {
+    }
+
+    public void on2RightMove(Float pFloat) {
     }
 
 }

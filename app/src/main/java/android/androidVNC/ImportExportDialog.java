@@ -29,6 +29,8 @@ import java.net.URLConnection;
 
 import org.xml.sax.SAXException;
 
+import cn.zeffect.apk.vnc.R;
+
 /**
  * @author Michael A. MacDonald
  *

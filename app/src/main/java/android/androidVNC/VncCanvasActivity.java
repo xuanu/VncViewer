@@ -24,10 +24,12 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -140,6 +142,8 @@ public class VncCanvasActivity extends Activity {
     }
 
     class MyOnGesture extends OnGesture {
+        ZGesture.Points mPoints = new ZGesture.Points(0, 0, 0, 0);
+
         @Override
         public void onSingleUp() {
             sendKey(MetaKeyBean.keyMouseLeftClick);
@@ -152,8 +156,40 @@ public class VncCanvasActivity extends Activity {
         }
 
         @Override
-        public void onLong() {
+        public void onLongClick() {
             sendKey(MetaKeyBean.keyMouseRightClick);
+        }
+
+        @Override
+        public void onDown(MotionEvent pEvent) {
+            mPoints.setX1(pEvent.getX());
+            mPoints.setY1(pEvent.getY());
+            vncCanvas.refreshPoint((int) pEvent.getX(), (int) pEvent.getY());
+        }
+
+        @Override
+        public void onMove(MotionEvent event) {
+            //没有超过感知距离的就算了
+            float tempW = Math.abs(mPoints.getX1() - event.getX());
+            float tempH = Math.abs(mPoints.getY1() - event.getY());
+            if ((tempW > ViewConfiguration.get(mContext).getScaledTouchSlop() || tempH > ViewConfiguration.get(mContext).getScaledTouchSlop())) {
+                vncCanvas.processPointerEvent(event, true);
+            }
+        }
+
+        @Override
+        public void on2TopMove(Float pFloat) {
+            sendKey(MetaKeyBean.mouseScrollUp);
+        }
+
+        @Override
+        public void on2BottomMove(Float pFloat) {
+            sendKey(MetaKeyBean.mouseScrollDown);
+        }
+
+        @Override
+        public void onUp() {
+            vncCanvas.sendUpMetaKey();
         }
     }
 
@@ -193,64 +229,4 @@ public class VncCanvasActivity extends Activity {
             database.close();
         }
     }
-
-    ////////////************
-    int getModeIdFromHandler(AbstractInputHandler handler) {
-        for (int id : inputModeIds) {
-            if (handler == getInputHandlerById(id))
-                return id;
-        }
-        return R.id.itemInputTouchPanZoomMouse;
-    }
-
-    private AbstractInputHandler inputModeHandlers[];
-
-    /**
-     * If id represents an input handler, return that; otherwise return null
-     *
-     * @param id
-     * @return
-     */
-    AbstractInputHandler getInputHandlerById(int id) {
-        if (inputModeHandlers == null) {
-            inputModeHandlers = new AbstractInputHandler[inputModeIds.length];
-        }
-        for (int i = 0; i < inputModeIds.length; ++i) {
-            if (inputModeIds[i] == id) {
-                if (inputModeHandlers[i] == null) {
-                    switch (id) {
-//                        case R.id.itemInputFitToScreen:
-//                            inputModeHandlers[i] = new FitToScreenMode();
-//                            break;
-//                        case R.id.itemInputPan:
-//                            inputModeHandlers[i] = new PanMode();
-//                            break;
-//                        case R.id.itemInputMouse:
-//                            inputModeHandlers[i] = new MouseMode();
-//                            break;
-//                        case R.id.itemInputTouchPanTrackballMouse:
-//                            inputModeHandlers[i] = new TouchPanTrackballMouse();
-//                            break;
-//                        case R.id.itemInputDPadPanTouchMouse:
-//                            inputModeHandlers[i] = new DPadPanTouchMouseMode();
-//                            break;
-//                        case R.id.itemInputTouchPanZoomMouse:
-//                            inputModeHandlers[i] = new ZoomInputHandler();
-//                            break;
-//                        case R.id.itemInputTouchpad:
-//                            inputModeHandlers[i] = new TouchpadInputHandler();
-//                            break;
-                    }
-                }
-                return inputModeHandlers[i];
-            }
-        }
-        return null;
-    }
-
-    private static final int inputModeIds[] = {R.id.itemInputFitToScreen,
-            R.id.itemInputTouchpad,
-            R.id.itemInputMouse, R.id.itemInputPan,
-            R.id.itemInputTouchPanTrackballMouse,
-            R.id.itemInputDPadPanTouchMouse, R.id.itemInputTouchPanZoomMouse};
 }

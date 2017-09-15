@@ -19,6 +19,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import cn.zeffect.apk.vnc.R;
+
 /**
  * @author Michael A. MacDonald
  *

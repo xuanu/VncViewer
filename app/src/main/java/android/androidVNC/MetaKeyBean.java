@@ -27,6 +27,8 @@ class MetaKeyBean extends AbstractMetaKeyBean implements Comparable<MetaKeyBean>
     //****************
     static final MetaKeyBean keyMouseLeftClick;
     static final MetaKeyBean keyMouseRightClick;
+    static final MetaKeyBean mouseScrollUp;
+    static final MetaKeyBean mouseScrollDown;
     //********************
     static final NewInstance<MetaKeyBean> NEW;
 
@@ -118,6 +120,8 @@ class MetaKeyBean extends AbstractMetaKeyBean implements Comparable<MetaKeyBean>
         keyArrowDown = new MetaKeyBean(0, 0, keysByKeySym.get(0xFF54));
         keyMouseLeftClick = new MetaKeyBean(0, 0, keysByMouseButton.get(VncCanvas.MOUSE_BUTTON_LEFT));
         keyMouseRightClick = new MetaKeyBean(0, 0, keysByMouseButton.get(VncCanvas.MOUSE_BUTTON_RIGHT));
+        mouseScrollDown = new MetaKeyBean(0, 0, keysByMouseButton.get(VncCanvas.MOUSE_BUTTON_SCROLL_DOWN));
+        mouseScrollUp = new MetaKeyBean(0, 0, keysByMouseButton.get(VncCanvas.MOUSE_BUTTON_SCROLL_UP));
     }
 
     private boolean _regenDesc;

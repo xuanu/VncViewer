@@ -30,6 +30,8 @@ import android.widget.SimpleCursorAdapter;
 
 import java.util.ArrayList;
 
+import cn.zeffect.apk.vnc.R;
+
 /**
  * @author Michael A. MacDonald
  *
@@ -61,7 +63,7 @@ public class ConnectionListActivity extends ListActivity {
         // SimpleListAdapter is designed for binding to a Cursor.
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(
                 this, // Context.
-                R.layout.connection_list, 
+                R.layout.connection_list,
                 mCursor,                                    // Pass in the cursor to bind to.
                 new String[] {
                 		ConnectionBean.GEN_FIELD_NICKNAME,

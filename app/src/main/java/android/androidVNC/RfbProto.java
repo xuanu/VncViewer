@@ -87,7 +87,7 @@ public class RfbProto {
             VncAuthTooMany = 2;
 
     // Server-to-client messages
-    final static int
+    public final static int
             FramebufferUpdate = 0,
             SetColourMapEntries = 1,
             Bell = 2,
@@ -95,7 +95,7 @@ public class RfbProto {
             TextChat = 11;
 
     // Client-to-server messages
-    final static int
+    public final static int
             SetPixelFormat = 0,
             FixColourMapEntries = 1,
             SetEncodings = 2,
@@ -105,7 +105,7 @@ public class RfbProto {
             ClientCutText = 6;
 
     // Supported encodings and pseudo-encodings
-    final static int
+    public  final static int
             EncodingRaw = 0,
             EncodingCopyRect = 1,
             EncodingRRE = 2,
@@ -121,7 +121,7 @@ public class RfbProto {
             EncodingPointerPos = 0xFFFFFF18,
             EncodingLastRect = 0xFFFFFF20,
             EncodingNewFBSize = 0xFFFFFF21;
-    final static String
+    public  final static String
             SigEncodingRaw = "RAW_____",
             SigEncodingCopyRect = "COPYRECT",
             SigEncodingRRE = "RRE_____",
@@ -745,7 +745,7 @@ public class RfbProto {
     // Set new framebuffer size
     //
 
-    void setFramebufferSize(int width, int height) {
+    public  void setFramebufferSize(int width, int height) {
         framebufferWidth = width;
         framebufferHeight = height;
     }
@@ -755,7 +755,7 @@ public class RfbProto {
     // Read the server message type
     //
 
-    int readServerMessageType() throws IOException {
+    public int readServerMessageType() throws IOException {
         int msgType = is.readUnsignedByte();
 
         // If the session is being recorded:
@@ -777,9 +777,9 @@ public class RfbProto {
     // Read a FramebufferUpdate message
     //
 
-    int updateNRects;
+    public  int updateNRects;
 
-    void readFramebufferUpdate() throws IOException {
+    public void readFramebufferUpdate() throws IOException {
         is.readByte();
         updateNRects = is.readUnsignedShort();
 
@@ -797,9 +797,9 @@ public class RfbProto {
 
     // Read a FramebufferUpdate rectangle header
 
-    int updateRectX, updateRectY, updateRectW, updateRectH, updateRectEncoding;
+    public  int updateRectX, updateRectY, updateRectW, updateRectH, updateRectEncoding;
 
-    void readFramebufferUpdateRectHdr() throws Exception {
+    public  void readFramebufferUpdateRectHdr() throws Exception {
         updateRectX = is.readUnsignedShort();
         updateRectY = is.readUnsignedShort();
         updateRectW = is.readUnsignedShort();
@@ -874,7 +874,7 @@ public class RfbProto {
     // Read a ServerCutText message
     //
 
-    String readServerCutText() throws IOException {
+    public String readServerCutText() throws IOException {
         byte[] pad = new byte[3];
         readFully(pad);
         int len = is.readInt();
@@ -1247,7 +1247,7 @@ public class RfbProto {
         writeInt(CHAT_FINISHED); // int message length
     }
 
-    String readTextChatMsg() throws Exception {
+    public String readTextChatMsg() throws Exception {
         byte[] pad = new byte[3];
         readFully(pad);
         int len = is.readInt();

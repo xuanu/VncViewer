@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import cn.zeffect.apk.vnc.R;
+
 /**
  * @author Michael A. MacDonald
  *

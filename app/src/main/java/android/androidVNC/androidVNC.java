@@ -44,6 +44,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import cn.zeffect.apk.vnc.R;
+
 public class androidVNC extends Activity {
 	private EditText ipText;
 	private EditText portText;

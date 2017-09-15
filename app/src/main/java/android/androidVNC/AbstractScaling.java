@@ -5,6 +5,8 @@ package android.androidVNC;
 
 import android.widget.ImageView;
 
+import cn.zeffect.apk.vnc.R;
+
 /**
  * @author Michael A. MacDonald
  * 
@@ -84,10 +86,11 @@ abstract class AbstractScaling {
         activity.vncCanvas.scaling = this;
         activity.vncCanvas.setScaleType(scaleType);
         activity.getConnection().setScaleMode(scaleType);
-        if (activity.inputHandler == null || !isValidInputMode(activity.getModeIdFromHandler(activity.inputHandler))) {
-            activity.inputHandler = activity.getInputHandlerById(getDefaultHandlerId());
-            activity.getConnection().setInputMode(activity.inputHandler.getName());
-        }
+        //TODO 对原来进行修改，屏蔽了以下代码
+//        if (activity.inputHandler == null || !isValidInputMode(activity.getModeIdFromHandler(activity.inputHandler))) {
+//            activity.inputHandler = activity.getInputHandlerById(getDefaultHandlerId());
+//            activity.getConnection().setInputMode(activity.inputHandler.getName());
+//        }
         activity.getConnection().Gen_update(activity.database.getWritableDatabase());
 //        activity.updateInputMenu();
     }
