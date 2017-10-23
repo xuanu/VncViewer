@@ -137,6 +137,7 @@ public class VncCanvas extends ImageView {
         scrollRunnable = new MouseScrollRunnable();
         handleRREPaint = new Paint();
         handleRREPaint.setStyle(Style.FILL);
+//        this.setScaleType(ScaleType.FIT_CENTER);
     }
 
     /**
@@ -1314,6 +1315,40 @@ public class VncCanvas extends ImageView {
                 e.printStackTrace();
             }
             panToMouse();
+        }
+    }
+
+
+    public void relativeMove(float sx, float sy) {
+        relativeMove(sx, sy, MOUSE_BUTTON_NONE);
+    }
+
+    /***
+     * 鼠标相对移动
+     * @param sx  x上的位移
+     * @param sy y上的位移
+     */
+    public void relativeMove(float sx, float sy, int buttonStatu) {
+        Log.e("zeffect", "变化前X，y位置:" + mouseX + "," + mouseY);
+        sx = sx * mXscale;
+        sy = sy * mYscale;
+        if (rfb != null && rfb.inNormalProtocol) {
+            bitmapData.invalidateMousePosition();
+            calcXYpadding();
+            mouseX += sx;
+            mouseY += sy;
+            if (mouseX < 0) mouseX = 0 + 5;
+            else if (mouseX > getImageWidth()) mouseX = getImageWidth() - 5;
+            if (mouseY < 0) mouseY = 0 + 5;
+            else if (mouseY > getImageHeight()) mouseY = getImageHeight() - 5;
+            Log.e("zeffect", "变化后x，y位置:" + mouseX + "," + mouseY);
+            bitmapData.invalidateMousePosition();
+            try {
+                rfb.writePointerEvent(mouseX, mouseY, 0, buttonStatu);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+//            panToMouse();
         }
     }
 

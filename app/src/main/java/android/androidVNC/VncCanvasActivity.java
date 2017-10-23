@@ -28,17 +28,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.qimon.commonlibrary.gesture.OnGesture;
-import com.qimon.commonlibrary.gesture.ZGesture;
 import com.zeffect.apk.vnc.utils.WeakAsyncTask;
 
 import java.util.List;
 
 import cn.zeffect.apk.vnc.R;
+import zeffect.cn.common.gesture.OnGesture;
+import zeffect.cn.common.gesture.ZGesture;
 
 public class VncCanvasActivity extends Activity {
     public static final String FIT_SCREEN_NAME = "FIT_SCREEN";
@@ -59,7 +58,7 @@ public class VncCanvasActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         database = new VncDatabase(this);
 
         Intent i = getIntent();
@@ -163,21 +162,31 @@ public class VncCanvasActivity extends Activity {
         public void onDown(MotionEvent pEvent) {
             mPoints.setX1(pEvent.getX());
             mPoints.setY1(pEvent.getY());
-            vncCanvas.refreshPoint((int) pEvent.getX(), (int) pEvent.getY());
+//            vncCanvas.refreshRelativePoint((int) pEvent.getX(), (int) pEvent.getY());
         }
 
         @Override
         public void onMove(MotionEvent event) {
-            if (event.getPointerCount() > 1) {
+            if (event.getPointerCount() == 1) {
+                vncCanvas.relativeMove(event.getX() - mPoints.getX1(), event.getY() - mPoints.getY1());//相对移动
+                mPoints.setX1(event.getX());
+                mPoints.setY1(event.getY());
+            } else if (event.getPointerCount() == 3) {
+                vncCanvas.relativeMove(event.getX(0) - mPoints.getX1(), event.getY(0) - mPoints.getY1(), VncCanvas.MOUSE_BUTTON_LEFT);//相对移动
+                mPoints.setX1(event.getX(0));
+                mPoints.setY1(event.getY(0));
+//                //发送历史点
+//                for (int i = 0; i < event.getHistorySize(); i++) {
+//                    int x = (int) event.getHistoricalX(i);
+//                    int y = (int) event.getHistoricalY(i);
+//                                    vncCanvas.processPointerEvent(event, false);//跟随手指移动
+//
+//                }
+            } else {
                 vncCanvas.sendUpMetaKey();
-                return;
             }
-            //没有超过感知距离的就算了
-            float tempW = Math.abs(mPoints.getX1() - event.getX());
-            float tempH = Math.abs(mPoints.getY1() - event.getY());
-            if ((tempW > ViewConfiguration.get(mContext).getScaledTouchSlop() || tempH > ViewConfiguration.get(mContext).getScaledTouchSlop())) {
-                vncCanvas.processPointerEvent(event, true);
-            }
+
+
         }
 
         @Override
@@ -194,14 +203,12 @@ public class VncCanvasActivity extends Activity {
         public void on2LeftUp(Float pFloat) {
             sendKey(MetaKeyBean.ctrlAltTab);
             sendKey(MetaKeyBean.keyArrowLeft);
-//            sendKey(MetaKeyBean.keyEnter);
         }
 
         @Override
         public void on2RightUp(Float pFloat) {
             sendKey(MetaKeyBean.ctrlAltTab);
             sendKey(MetaKeyBean.keyArrowRight);
-//            sendKey(MetaKeyBean.keyEnter);
         }
 
         @Override
@@ -216,7 +223,7 @@ public class VncCanvasActivity extends Activity {
         }
 
         @Override
-        public void onUp() {
+        public void onUp(MotionEvent e) {
             vncCanvas.sendUpMetaKey();
         }
     }

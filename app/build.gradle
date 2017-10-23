@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId 'cn.zeffect.apk.vnc'
         minSdkVersion 14
@@ -24,10 +24,9 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':zoomerWithKeys')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile "org.jetbrains.anko:anko-sdk15:+"
-    compile 'com.github.xuanu.Notes:commonlibrary:1.1'
+    compile 'com.github.xuanu:UsingCommon:0.4'
 }
 repositories {
     mavenCentral()

@@ -30,7 +30,7 @@
         <activity
             android:name="android.androidVNC.VncCanvasActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="sensorLandscape">
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
